@@ -1,3 +1,4 @@
+import Link from "next/link"
 import LoginForm from "@/app/components/auth/LoginForm"
 
 const LoginPage = () => {
@@ -7,6 +8,15 @@ const LoginPage = () => {
                   <p className="text3xl font-bold">y controla tus <span className="text-amber-500"> finanzas</span></p>
 
                   <LoginForm />
+
+                  <nav className="mt-10 flex flex-col space-y-4">
+                        <Link
+                              href='/auth/login'
+                              className="text-center text-gray-500"
+                        >
+                              ¿Ya tienes cuenta? Inicia Sesión
+                        </Link>
+                  </nav>
             </>
       )
 }
