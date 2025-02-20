@@ -11,10 +11,16 @@ const LoginPage = () => {
 
                   <nav className="mt-10 flex flex-col space-y-4">
                         <Link
-                              href='/auth/login'
+                              href='/auth/register'
                               className="text-center text-gray-500"
                         >
-                              ¿Ya tienes cuenta? Inicia Sesión
+                              ¿No tienes cuenta? Crea una
+                        </Link>
+                        <Link
+                              href='/auth/forgot-password'
+                              className="text-center text-gray-500"
+                        >
+                              ¿Olvidaste tu contraseña? Resstablecer
                         </Link>
                   </nav>
             </>

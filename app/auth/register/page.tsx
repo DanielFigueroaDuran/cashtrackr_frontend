@@ -13,10 +13,16 @@ const RegisterPage = () => {
 
                   <nav className="mt-10 flex flex-col space-y-4">
                         <Link
-                              href='/auth/register'
+                              href='/auth/login'
                               className="text-center text-gray-500"
                         >
-                              ¿No tienes cuenta? Crea una
+                              ¿Ya tienes cuenta? Inicia Sesión
+                        </Link>
+                        <Link
+                              href='/auth/forgot-password'
+                              className="text-center text-gray-500"
+                        >
+                              ¿Olvidaste tu contraseña? Resstablecer
                         </Link>
                   </nav>
             </>
