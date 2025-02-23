@@ -1,14 +1,21 @@
 "use client"
 
+import { useActionState } from "react";
 import { register } from "@/actions/create-account-action";
 
-const RegisterForm = () => {
+const initialState = {
+      errors: []
+};
 
+const RegisterForm = () => {
+      const [state, dispatch] = useActionState(register, initialState)
+
+      console.log(state);
       return (
             <form
                   className="mt-14 space-y-5"
                   noValidate
-                  action={register}
+                  action={dispatch}
             >
                   <div className="flex flex-col gap-2">
                         <label
