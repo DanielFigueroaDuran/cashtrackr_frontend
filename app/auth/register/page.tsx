@@ -3,7 +3,7 @@ import Link from "next/link";
 import RegisterForm from "@/app/components/auth/RegisterForm";
 
 const RegisterPage = () => {
-      console.log('Register page');
+
       return (
             <>
                   <h1 className="font-black text-6xl text-purple-900">Crear una Cuenta</h1>
