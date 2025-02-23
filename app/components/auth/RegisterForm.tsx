@@ -3,7 +3,7 @@
 import { register } from "@/actions/create-account-action";
 
 const RegisterForm = () => {
-      console.log('Desde Register form');
+
       return (
             <form
                   className="mt-14 space-y-5"
