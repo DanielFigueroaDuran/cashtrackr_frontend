@@ -1,6 +1,6 @@
 "use server"
 
-export const register = async () => {
-      console.log('Hola desde Regirter Acction');
-}
+export const register = async (formData: FormData) => {
+      console.log(formData);
+};
 
