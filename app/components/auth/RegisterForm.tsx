@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { register } from "@/actions/create-account-action";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const initialState = {
       errors: []
@@ -17,6 +18,8 @@ const RegisterForm = () => {
                   noValidate
                   action={dispatch}
             >
+                  {state.errors.map((error, index) => <ErrorMessage key={index}>{error}</ErrorMessage >)}
+
                   <div className="flex flex-col gap-2">
                         <label
                               className="font-bold text-2xl"
