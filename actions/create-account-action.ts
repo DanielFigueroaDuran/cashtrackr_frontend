@@ -1,9 +1,10 @@
 "use server"
 
-import { RegisterSchema } from "@/src/shemas";
+import { RegisterSchema, SuccessShema } from "@/src/shemas";
 
 type ActionStateType = {
-      errors: string[]
+      errors: string[],
+      success: string
 };
 
 export const register = async (prevState: ActionStateType, formData: FormData) => {
@@ -23,7 +24,10 @@ export const register = async (prevState: ActionStateType, formData: FormData) =
 
       if (!register.success) {
             const errors = register.error.errors.map(error => error.message);
-            return { errors };
+            return {
+                  errors,
+                  success: prevState.success
+            };
       };
 
       // console.log(register);
@@ -31,6 +35,7 @@ export const register = async (prevState: ActionStateType, formData: FormData) =
       // Register the user
 
       const url = `${process.env.API_URL}/api/auth/create-account`;
+      console.log(url);
       const req = await fetch(url, {
             method: 'POST',
             headers: {
@@ -44,11 +49,12 @@ export const register = async (prevState: ActionStateType, formData: FormData) =
       });
 
       const json = await req.json();
-
-      console.log(json);
+      const success = SuccessShema.parse(json);
+      console.log(success);
 
       return {
-            errors: []
+            errors: prevState.errors,
+            success
       };
 };
 

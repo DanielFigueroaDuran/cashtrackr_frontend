@@ -12,4 +12,6 @@ export const RegisterSchema = z.object({
 }).refine((data) => data.password === data.password_confirmation, {
       message: 'Los password no son iguales',
       path: ['password_confirmation']
-})
+});
+
+export const SuccessShema = z.string().min(1, { message: 'Válor no válido' });
