@@ -9,6 +9,12 @@ export const register = async (formData: FormData) => {
             password_confirmation: formData.get('password_confirmation')
       }
 
-      console.log(registerData);
+      //console.log(registerData);
+
+      //Validate
+
+
+
+      // Register the user
 };
 
