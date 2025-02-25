@@ -1,6 +1,6 @@
 "use server"
 
-import { RegisterSchema, SuccessShema } from "@/src/shemas";
+import { ErrorResponseSchema, RegisterSchema, SuccessShema } from "@/src/shemas";
 
 type ActionStateType = {
       errors: string[],
@@ -49,11 +49,20 @@ export const register = async (prevState: ActionStateType, formData: FormData) =
       });
 
       const json = await req.json();
+
+      if (req.status === 409) {
+            const { error } = ErrorResponseSchema.parse(json);
+            return {
+                  errors: [error],
+                  success: prevState.success
+            };
+      };
+
       const success = SuccessShema.parse(json);
-      console.log(success);
+      // console.log(success);
 
       return {
-            errors: prevState.errors,
+            errors: [],
             success
       };
 };
