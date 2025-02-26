@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { register } from "@/actions/create-account-action";
 import ErrorMessage from "../ui/ErrorMessage";
 import SuccessMessage from "../ui/SuccessMessage";
@@ -11,14 +11,22 @@ const initialState = {
 };
 
 const RegisterForm = () => {
+      const ref = useRef<HTMLFormElement>(null);
       const [state, dispatch] = useActionState(register, initialState)
+      //console.log(state);
 
-      console.log(state);
+      useEffect(() => {
+            if (state.success) {
+                  ref.current?.reset();
+            };
+      }, [state]);
+
       return (
             <form
                   className="mt-14 space-y-5"
                   noValidate
                   action={dispatch}
+                  ref={ref}
             >
                   {state.errors.map((error, index) => <ErrorMessage key={index}>{error}</ErrorMessage >)}
                   {state.success && <SuccessMessage>{state.success}</SuccessMessage>}
