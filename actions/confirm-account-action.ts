@@ -1,9 +1,10 @@
 "use server"
 
-import { TokenShema } from "@/src/shemas";
+import { ErrorResponseSchema, SuccessShema, TokenShema } from "@/src/shemas";
 
 type ActionStateType = {
-      errors: string[]
+      errors: string[],
+      success: string
 };
 
 export const confirmAccount = async (token: string, prevState: ActionStateType) => {
@@ -15,9 +16,34 @@ export const confirmAccount = async (token: string, prevState: ActionStateType) 
             };
       };
 
-      console.log(confirmToken.data);
+      //confirm user
+
+      const url = `${process.env.API_URL}/api/auth/confirm-account`;
+      console.log(url);
+      const req = await fetch(url, {
+            method: 'POST',
+            headers: {
+                  'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                  token: confirmToken.data
+            })
+      });
+
+      const json = await req.json();
+
+      if (!req.ok) {
+            const { error } = ErrorResponseSchema.parse(json);
+            return {
+                  errors: [error],
+                  success: ''
+            };
+      };
+
+      const success = SuccessShema.parse(json);
 
       return {
-            errors: []
+            errors: [],
+            success
       };
 };
