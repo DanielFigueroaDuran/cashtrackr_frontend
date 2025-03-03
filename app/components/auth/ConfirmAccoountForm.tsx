@@ -5,6 +5,7 @@ import { confirmAccount } from "@/actions/confirm-account-action";
 import ErrorMessage from "../ui/ErrorMessage";
 import SuccessMessage from "../ui/SuccessMessage";
 import { set } from "zod";
+import { toast } from "react-toastify";
 
 const initialState = {
       errors: [],
@@ -18,11 +19,14 @@ const ConfirmAccoountForm = () => {
       //const confirmAccountWithToken = confirmAccount.bind(null, token);
       const [state, dispatch] = useActionState(confirmAccount, initialState);
 
-      // useEffect(() => {
-      //       if (isComplete) {
-      //             dispatch();
-      //       };
-      // }, [isComplete]);
+      useEffect(() => {
+            if (state.errors) {
+                  state.errors.forEach(error => {
+                        toast.error(error)
+                  });
+            };
+      }, [state]);
+
 
       const handleChange = (value: string) => {
             // setToken(value);
@@ -41,7 +45,6 @@ const ConfirmAccoountForm = () => {
 
       return (
             <>
-                  {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
                   {state.success && <SuccessMessage>{state.success}</SuccessMessage>}
 
                   <div className="flex justify-center gap-5 my-10">
