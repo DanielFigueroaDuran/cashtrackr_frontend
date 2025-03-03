@@ -1,11 +1,9 @@
 "use client"
-import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { startTransition, useActionState, useEffect, useState } from "react";
-import { confirmAccount } from "@/actions/confirm-account-action";
-import ErrorMessage from "../ui/ErrorMessage";
-import SuccessMessage from "../ui/SuccessMessage";
-import { set } from "zod";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { PinInput, PinInputField } from "@chakra-ui/pin-input";
+import { confirmAccount } from "@/actions/confirm-account-action";
 
 const initialState = {
       errors: [],
@@ -17,12 +15,20 @@ const ConfirmAccoountForm = () => {
       //const [token, setToken] = useState('');
 
       //const confirmAccountWithToken = confirmAccount.bind(null, token);
+      const router = useRouter();
       const [state, dispatch] = useActionState(confirmAccount, initialState);
 
       useEffect(() => {
             if (state.errors) {
                   state.errors.forEach(error => {
                         toast.error(error)
+                  });
+            };
+            if (state.success) {
+                  toast.success(state.success, {
+                        onClose: () => {
+                              router.push('/auth/login')
+                        }
                   });
             };
       }, [state]);
@@ -45,8 +51,6 @@ const ConfirmAccoountForm = () => {
 
       return (
             <>
-                  {state.success && <SuccessMessage>{state.success}</SuccessMessage>}
-
                   <div className="flex justify-center gap-5 my-10">
                         <PinInput
                               // value={token}
