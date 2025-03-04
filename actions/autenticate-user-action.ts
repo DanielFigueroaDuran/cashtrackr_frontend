@@ -1,5 +1,5 @@
 "use server"
-import { LoginSchema } from "@/src/shemas";
+import { ErrorResponseSchema, LoginSchema } from "@/src/shemas";
 
 type ActionStatetype = {
       errors: string[]
@@ -35,8 +35,14 @@ export const authenticate = async (prevState: ActionStatetype, formData: FormDat
 
       const json = await req.json();
 
-      console.log('req.ok', req.ok);
-      console.log('json', json);
+      if (!req.ok) {
+            const { error } = ErrorResponseSchema.parse(json);
+            return {
+                  errors: [error]
+            };
+      };
+
+      console.log(json);
 
       return {
             errors: []
