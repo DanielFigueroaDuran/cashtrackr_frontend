@@ -1,6 +1,7 @@
 "use client"
 import { authenticate } from "@/actions/autenticate-user-action"
 import { useActionState, useEffect } from "react"
+import { toast } from "react-toastify";
 
 const initialState = {
       errors: []
@@ -10,7 +11,11 @@ const LoginForm = () => {
       const [state, dispatch] = useActionState(authenticate, initialState);
 
       useEffect(() => {
-            console.log(state);
+            if (state.errors) {
+                  state.errors.forEach(error => {
+                        toast.error(error);
+                  });
+            };
       }, [state]);
 
       return (
