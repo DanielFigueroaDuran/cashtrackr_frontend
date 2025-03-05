@@ -1,8 +1,8 @@
-import { verifySession } from "@/src/auth/dal"
+//import { verifySession } from "@/src/auth/dal"
 import Link from "next/link"
 
 const AdminPage = async () => {
-      await verifySession();
+      // await verifySession();
 
       return (
             <>
