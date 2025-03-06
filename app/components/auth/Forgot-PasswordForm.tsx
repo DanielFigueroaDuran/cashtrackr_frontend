@@ -1,10 +1,22 @@
 "use client"
 
-const ForgotPassword = () => {
+import { useActionState } from "react";
+import { forgotPassword } from "@/actions/forgot-password-action";
+
+
+const initialState = {
+  errors: [],
+  success: ''
+}
+
+const ForgotPasswordForm = () => {
+  const [state, dispatch] = useActionState(forgotPassword, initialState);
+
   return (
     <form
       className=" mt-14 space-y-5"
       noValidate
+      action={dispatch}
     >
       <div className="flex flex-col gap-2 mb-10">
         <label
@@ -28,4 +40,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ForgotPasswordForm

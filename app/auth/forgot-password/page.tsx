@@ -1,7 +1,9 @@
 import Link from 'next/link'
-import ForgotPassword from '@/app/components/auth/Forgot-Password'
+import ForgotPassword from '@/app/components/auth/Forgot-PasswordForm'
+//import { forgotPassword } from '@/actions/forgot-password-action';
 
 const ForgotPasswordPage = () => {
+
       return (
             <>
                   <h1 className="font-black text-6xl text-purple-900">¿Olvidaste tu Contraseña?</h1>
