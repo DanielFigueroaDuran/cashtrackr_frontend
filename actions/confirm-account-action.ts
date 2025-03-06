@@ -8,7 +8,7 @@ type ActionStateType = {
 };
 
 export const confirmAccount = async (prevState: ActionStateType, token: string,) => {
-      console.log(token);
+      //console.log(token);
       const confirmToken = TokenShema.safeParse(token);
       if (!confirmToken.success) {
             return {
