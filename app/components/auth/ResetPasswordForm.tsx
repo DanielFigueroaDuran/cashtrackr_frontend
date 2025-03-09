@@ -30,6 +30,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
                   });
             };
       }, [state]);
+
       return (
             <form
                   className=" mt-14 space-y-5"
