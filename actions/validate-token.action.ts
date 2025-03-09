@@ -1,6 +1,6 @@
 "use server"
 
-import { ErrorResponseSchema, TokenShema } from "@/src/shemas";
+import { ErrorResponseSchema, SuccessShema, TokenShema } from "@/src/shemas";
 
 
 type ActionStateType = {
@@ -30,7 +30,7 @@ export const validateToken = async (prevState: ActionStateType, token: string) =
 
       const json = await req.json();
       //console.log(json);
-      if (!json.ok) {
+      if (!req.ok) {
             const { error } = ErrorResponseSchema.parse(json);
             return {
                   errors: [error],
@@ -38,8 +38,10 @@ export const validateToken = async (prevState: ActionStateType, token: string) =
             };
       };
 
+      const success = SuccessShema.parse(json);
+
       return {
             errors: [],
-            success: ''
+            success
       }
 };
