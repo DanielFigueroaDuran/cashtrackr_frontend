@@ -1,6 +1,7 @@
 "use server"
 
-import { DraftBudgetSchema } from "@/src/shemas";
+import { DraftBudgetSchema, SuccessShema } from "@/src/shemas";
+import { cookies } from "next/headers";
 
 type ActionStateType = {
       errors: string[],
@@ -19,6 +20,31 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
                   success: ''
             };
       };
+
+      const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
+      // console.log(token);
+
+
+      const url = `${process.env.API_URL}/api/budgets`;
+      const req = await fetch(url, {
+            method: 'POST',
+            headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer  ${token}`
+            },
+            body: JSON.stringify({
+                  name: budget.data.name,
+                  amount: budget.data.amount
+            })
+
+      });
+
+      const json = await req.json();
+
+      console.log(json);
+
+      //const success = SuccessShema.parse(json);
+
 
       return {
             errors: [],
