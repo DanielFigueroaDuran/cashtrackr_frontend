@@ -1,13 +1,24 @@
 "use client"
 
-export default function CreateBudgetForm() {
+import { createBudget } from "@/actions/create-budget-action";
+import { useActionState } from "react";
+import ErrorMessage from "../ui/ErrorMessage";
 
+const initialState = {
+      errors: [],
+      success: ''
+}
+
+export default function CreateBudgetForm() {
+      const [state, dispatch] = useActionState(createBudget, initialState);
 
       return (
             <form
                   className="mt-10 space-y-3"
                   noValidate
+                  action={dispatch}
             >
+                  {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
                   <div className="space-y-3">
                         <label htmlFor="name" className="text-sm uppercase font-bold">
                               Nombre Presupuesto
