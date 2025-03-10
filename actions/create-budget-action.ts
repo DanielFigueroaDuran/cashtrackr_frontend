@@ -22,7 +22,7 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
       };
 
       const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
-      // console.log(token);
+      console.log(token);
 
 
       const url = `${process.env.API_URL}/api/budgets`;
