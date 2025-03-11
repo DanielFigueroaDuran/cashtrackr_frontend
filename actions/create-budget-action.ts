@@ -22,7 +22,7 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
       };
 
       const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
-      console.log(token);
+      console.log('daniel', token);
 
 
       const url = `${process.env.API_URL}/api/budgets`;
@@ -41,7 +41,7 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
 
       const json = await req.json();
 
-      console.log(json);
+      console.log('JSON CLG', json);
 
       //const success = SuccessShema.parse(json);
 
