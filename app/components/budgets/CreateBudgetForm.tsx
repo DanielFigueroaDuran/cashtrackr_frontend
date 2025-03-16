@@ -4,6 +4,7 @@ import { createBudget } from "@/actions/create-budget-action";
 import { useActionState, useEffect } from "react";
 import ErrorMessage from "../ui/ErrorMessage";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const initialState = {
       errors: [],
@@ -11,11 +12,19 @@ const initialState = {
 }
 
 export default function CreateBudgetForm() {
+      const router = useRouter();
       const [state, dispatch] = useActionState(createBudget, initialState);
 
       useEffect(() => {
             if (state.success) {
-                  toast.success(state.success);
+                  toast.success(state.success, {
+                        onClose: () => {
+                              router.push('/admin');
+                        },
+                        onClick: () => {
+                              router.push('/admin');
+                        }
+                  });
             };
       }, [state]);
 
