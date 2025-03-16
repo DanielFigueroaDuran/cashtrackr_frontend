@@ -1,8 +1,9 @@
 "use client"
 
 import { createBudget } from "@/actions/create-budget-action";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import ErrorMessage from "../ui/ErrorMessage";
+import { toast } from "react-toastify";
 
 const initialState = {
       errors: [],
@@ -11,6 +12,12 @@ const initialState = {
 
 export default function CreateBudgetForm() {
       const [state, dispatch] = useActionState(createBudget, initialState);
+
+      useEffect(() => {
+            if (state.success) {
+                  toast.success(state.success);
+            };
+      }, [state]);
 
       return (
             <form

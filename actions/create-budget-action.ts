@@ -22,15 +22,13 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
       };
 
       const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
-      console.log('daniel', token);
-
-
+      //console.log(token);
       const url = `${process.env.API_URL}/api/budgets`;
       const req = await fetch(url, {
             method: 'POST',
             headers: {
                   'Content-Type': 'application/json',
-                  'Authorization': `Bearer  ${token}`
+                  'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                   name: budget.data.name,
@@ -41,13 +39,13 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
 
       const json = await req.json();
 
-      console.log('JSON CLG', json);
+      //console.log(json);
 
-      //const success = SuccessShema.parse(json);
+      const success = SuccessShema.parse(json);
 
 
       return {
             errors: [],
-            success: ''
+            success
       };
 };

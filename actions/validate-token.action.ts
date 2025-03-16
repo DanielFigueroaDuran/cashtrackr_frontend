@@ -8,7 +8,8 @@ type ActionStateType = {
       success: string
 }
 
-export const validateToken = async (prevState: ActionStateType, token: string) => {
+export const validateToken = async (token: string, prevState: ActionStateType) => {
+
       const resetPasswordToken = TokenShema.safeParse(token);
       if (!resetPasswordToken.success) {
             return {

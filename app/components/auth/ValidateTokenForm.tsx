@@ -15,15 +15,18 @@ const initialState = {
 }
 
 export default function ValidateTokenForm({ setIsValidToken, token, setToken }: ValidateTokenFormProps,) {
-      //const [isComplete, setIsComplete] = useState(false);
-      //const validateTokenInput = validateToken.bind(null, token);
-      const [state, dispatch] = useActionState(validateToken, initialState);
+      const [isComplete, setIsComplete] = useState(false);
 
-      // useEffect(() => {
-      //       if (isComplete) {
-      //             dispatch();
-      //       };
-      // }, [isComplete]); 
+      const validateTokenInput = validateToken.bind(null, token);
+      const [state, dispatch] = useActionState(validateTokenInput, initialState);
+
+      useEffect(() => {
+            if (isComplete) {
+                  startTransition(() => {
+                        dispatch();
+                  });
+            };
+      }, [isComplete]);
 
       useEffect(() => {
             if (state.errors) {
@@ -38,22 +41,12 @@ export default function ValidateTokenForm({ setIsValidToken, token, setToken }: 
       }, [state]);
 
       const handleChange = (token: string) => {
-            // setIsComplete(false);
-            // if (value.length <= 6) {
-            //       setToken(value);
-            // };
+            setIsComplete(false);
             setToken(token);
-
       };
 
       const handleComplete = (token: string) => {
-            //setIsComplete(true);
-            if (token.length === 6) {
-                  startTransition(() => {
-                        dispatch(token);
-                  });
-            };
-
+            setIsComplete(true);
       };
 
       return (

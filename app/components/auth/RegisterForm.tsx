@@ -19,9 +19,6 @@ const RegisterForm = () => {
       useEffect(() => {
             if (state.success) {
                   ref.current?.reset();
-                  // setTimeout(() => {
-                  //       redirect('/auth/login');
-                  // }, 2000);
             };
       }, [state]);
 

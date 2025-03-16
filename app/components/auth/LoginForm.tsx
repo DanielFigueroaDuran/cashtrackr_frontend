@@ -1,7 +1,7 @@
 "use client"
-import { authenticate } from "@/actions/autenticate-user-action"
 import { useActionState, useEffect } from "react"
 import { toast } from "react-toastify";
+import { authenticate } from "@/actions/autenticate-user-action"
 
 const initialState = {
       errors: []

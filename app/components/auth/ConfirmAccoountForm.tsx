@@ -7,7 +7,7 @@ import { confirmAccount } from "@/actions/confirm-account-action";
 
 const initialState = {
       errors: [],
-      //success: ''
+      success: ''
 };
 
 const ConfirmAccoountForm = () => {
@@ -26,30 +26,29 @@ const ConfirmAccoountForm = () => {
             };
       }, [isComplete]);
 
-      // useEffect(() => {
-      //       if (state.errors) {
-      //             state.errors.forEach(error => {
-      //                   toast.error(error)
-      //             });
-      //       };
-      //       if (state.success) {
-      //             toast.success(state.success, {
-      //                   onClose: () => {
-      //                         router.push('/auth/login')
-      //                   }
-      //             });
-      //       };
-      // }, [state]);
+      useEffect(() => {
+            if (state.errors) {
+                  state.errors.forEach(error => {
+                        toast.error(error)
+                  });
+            };
+            if (state.success) {
+                  toast.success(state.success, {
+                        onClose: () => {
+                              router.push('/auth/login')
+                        }
+                  });
+            };
+      }, [state]);
 
 
       const handleChange = (token: string) => {
+            setIsComplete(false);
             setToken(token);
       };
 
-      const handleComplete = (token: string) => {
+      const handleComplete = () => {
             setIsComplete(true);
-            //console.log(value);
-            //setToken(value);
       };
 
       return (
