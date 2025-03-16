@@ -1,5 +1,7 @@
 //import { verifySession } from "@/src/auth/dal"
+import { BudgetsAPIResponseSchema } from "@/src/shemas";
 import { Metadata } from "next"
+import { cookies } from "next/headers";
 import Link from "next/link"
 
 
@@ -8,8 +10,25 @@ export const metadata: Metadata = {
       description: "CashTrackr - Panel de Administración"
 };
 
+const getUserBudgets = async () => {
+      const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
+      const url = `${process.env.API_URL}/api/budgets`;
+
+      const req = await fetch(url, {
+            headers: {
+                  'Authorization': `Bearer ${token}`
+            }
+      });
+
+      const json = await req.json();
+      //console.log(json);
+      const budgets = BudgetsAPIResponseSchema.parse(json);
+      return budgets;
+};
+
 const AdminPage = async () => {
       // await verifySession();
+      const budgets = await getUserBudgets();
 
       return (
             <>
