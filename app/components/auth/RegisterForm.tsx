@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { register } from "@/actions/create-account-action";
 import ErrorMessage from "../ui/ErrorMessage";
 import SuccessMessage from "../ui/SuccessMessage";
+import { redirect } from "next/navigation";
 
 const initialState = {
       errors: [],
@@ -18,6 +19,9 @@ const RegisterForm = () => {
       useEffect(() => {
             if (state.success) {
                   ref.current?.reset();
+                  // setTimeout(() => {
+                  //       redirect('/auth/login');
+                  // }, 2000);
             };
       }, [state]);
 

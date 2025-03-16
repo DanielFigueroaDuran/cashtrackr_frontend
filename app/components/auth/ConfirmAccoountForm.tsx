@@ -7,54 +7,57 @@ import { confirmAccount } from "@/actions/confirm-account-action";
 
 const initialState = {
       errors: [],
-      success: ''
+      //success: ''
 };
 
 const ConfirmAccoountForm = () => {
-      //const [isComplete, setIsComplete] = useState(false);
-      //const [token, setToken] = useState('');
+      const [isComplete, setIsComplete] = useState(false);
+      const [token, setToken] = useState('');
 
-      //const confirmAccountWithToken = confirmAccount.bind(null, token);
+      const confirmAccountWithToken = confirmAccount.bind(null, token);
       const router = useRouter();
-      const [state, dispatch] = useActionState(confirmAccount, initialState);
+      const [state, dispatch] = useActionState(confirmAccountWithToken, initialState);
 
       useEffect(() => {
-            if (state.errors) {
-                  state.errors.forEach(error => {
-                        toast.error(error)
+            if (isComplete) {
+                  startTransition(() => {
+                        dispatch();
                   });
             };
-            if (state.success) {
-                  toast.success(state.success, {
-                        onClose: () => {
-                              router.push('/auth/login')
-                        }
-                  });
-            };
-      }, [state]);
+      }, [isComplete]);
+
+      // useEffect(() => {
+      //       if (state.errors) {
+      //             state.errors.forEach(error => {
+      //                   toast.error(error)
+      //             });
+      //       };
+      //       if (state.success) {
+      //             toast.success(state.success, {
+      //                   onClose: () => {
+      //                         router.push('/auth/login')
+      //                   }
+      //             });
+      //       };
+      // }, [state]);
 
 
-      const handleChange = (value: string) => {
-            // setToken(value);
+      const handleChange = (token: string) => {
+            setToken(token);
       };
 
-      const handleComplete = (value: string) => {
-            // setIsComplete(true);
+      const handleComplete = (token: string) => {
+            setIsComplete(true);
             //console.log(value);
             //setToken(value);
-
-            startTransition(() => {
-                  dispatch(value);
-            });
       };
-
 
       return (
             <>
                   <div className="flex justify-center gap-5 my-10">
                         <PinInput
-                              // value={token}
-                              //onChange={handleChange}
+                              value={token}
+                              onChange={handleChange}
                               onComplete={handleComplete}
                         >
                               <PinInputField className="w-10 h-10 border-gray-300 shadow rounded-lg text-center placeholder-white" />
