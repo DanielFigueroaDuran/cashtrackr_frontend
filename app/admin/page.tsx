@@ -1,7 +1,7 @@
 //import { verifySession } from "@/src/auth/dal"
+import { getToken } from "@/src/auth/token";
 import { BudgetsAPIResponseSchema } from "@/src/shemas";
 import { Metadata } from "next"
-import { cookies } from "next/headers";
 import Link from "next/link"
 
 
@@ -11,9 +11,8 @@ export const metadata: Metadata = {
 };
 
 const getUserBudgets = async () => {
-      const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
+      const token = getToken();
       const url = `${process.env.API_URL}/api/budgets`;
-
       const req = await fetch(url, {
             headers: {
                   'Authorization': `Bearer ${token}`
