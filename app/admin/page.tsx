@@ -2,6 +2,7 @@
 import { getToken } from "@/src/auth/token";
 import { BudgetsAPIResponseSchema } from "@/src/shemas";
 import { Metadata } from "next"
+import { cookies } from "next/headers";
 import Link from "next/link"
 
 
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 };
 
 const getUserBudgets = async () => {
-      const token = getToken();
+      const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
+
+      //const token = getToken();
       const url = `${process.env.API_URL}/api/budgets`;
       const req = await fetch(url, {
             headers: {
@@ -20,7 +23,7 @@ const getUserBudgets = async () => {
       });
 
       const json = await req.json();
-      //console.log(json);
+      console.log(json);
       const budgets = BudgetsAPIResponseSchema.parse(json);
       return budgets;
 };
@@ -28,6 +31,7 @@ const getUserBudgets = async () => {
 const AdminPage = async () => {
       // await verifySession();
       const budgets = await getUserBudgets();
+      // await getUserBudgets();
 
       return (
             <>
@@ -45,8 +49,24 @@ const AdminPage = async () => {
                               Crear Presupuesto
                         </Link>
                   </div>
+
+
             </>
       )
 }
-
+// {budgets.length ? (
+//       <p>Sí hay...</p>
+// )
+//       : (
+//             <p className="text-center py-20">
+//                   no hay presupuesto aún {''}
+//                   <Link
+//                         className="text-purple-950 font-bold"
+//                         href={'/admin/budgets/new'}
+//                   >
+//                         Comíenza creando uno
+//                   </Link>
+//             </p>
+//       )
+// }
 export default AdminPage
