@@ -1,6 +1,7 @@
 //import { verifySession } from "@/src/auth/dal"
 import { getToken } from "@/src/auth/token";
 import { BudgetsAPIResponseSchema } from "@/src/shemas";
+import { formatCurrencyEu } from "@/src/utlis";
 import { Metadata } from "next"
 import { cookies } from "next/headers";
 import Link from "next/link"
@@ -23,15 +24,16 @@ const getUserBudgets = async () => {
       });
 
       const json = await req.json();
-      console.log(json);
+      //console.log("Respuesta de la API:", json);
       const budgets = BudgetsAPIResponseSchema.parse(json);
+      //console.log( budgets);
       return budgets;
 };
 
 const AdminPage = async () => {
       // await verifySession();
       const budgets = await getUserBudgets();
-      // await getUserBudgets();
+      //await getUserBudgets();
 
       return (
             <>
@@ -49,24 +51,50 @@ const AdminPage = async () => {
                               Crear Presupuesto
                         </Link>
                   </div>
+                  {budgets.length ? (
+                        <ul role="list" className="divide-y divide-gray-300 border shadow-lg mt-10 ">
+                              {budgets.map((budget) => (
+                                    <li key={budget.id} className="flex justify-between gap-x-6 p-5 ">
+                                          <div className="flex min-w-0 gap-x-4">
+                                                <div className="min-w-0 flex-auto space-y-2">
+                                                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                                                            <Link
+                                                                  href={`/admin/budgets/${budget.id}`}
+                                                                  className="cursor-pointer hover:underline text-2xl font-bold"
+                                                            >
+                                                                  {budget.name}
+                                                            </Link>
+                                                      </p>
+                                                      <p className="text-xl font-bold text-amber-500">
+                                                            {formatCurrencyEu(+budget.amount)}
+                                                      </p>
+                                                      <p className='text-gray-500  text-sm'>
 
+                                                      </p>
+                                                </div>
+                                          </div>
+                                          <div className="flex shrink-0 items-center gap-x-6">
 
+                                          </div>
+                                    </li>
+                              ))}
+                        </ul>
+                  )
+                        : (
+                              <p className="text-center py-20">
+                                    no hay presupuesto aún {''}
+                                    <Link
+                                          className="text-purple-950 font-bold"
+                                          href={'/admin/budgets/new'}
+                                    >
+                                          Comíenza creando uno
+                                    </Link>
+                              </p>
+                        )
+                  }
             </>
       )
 }
-// {budgets.length ? (
-//       <p>Sí hay...</p>
-// )
-//       : (
-//             <p className="text-center py-20">
-//                   no hay presupuesto aún {''}
-//                   <Link
-//                         className="text-purple-950 font-bold"
-//                         href={'/admin/budgets/new'}
-//                   >
-//                         Comíenza creando uno
-//                   </Link>
-//             </p>
-//       )
-// }
+
+
 export default AdminPage
