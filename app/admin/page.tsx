@@ -5,6 +5,7 @@ import { formaDate, formatCurrencyEu } from "@/src/utlis";
 import { Metadata } from "next"
 import { cookies } from "next/headers";
 import Link from "next/link"
+import BudgetMenu from "../components/budgets/BudgetMenu";
 
 
 export const metadata: Metadata = {
@@ -75,7 +76,9 @@ const AdminPage = async () => {
                                                 </div>
                                           </div>
                                           <div className="flex shrink-0 items-center gap-x-6">
-
+                                                <BudgetMenu
+                                                      budgetId={budget.id}
+                                                />
                                           </div>
                                     </li>
                               ))}
