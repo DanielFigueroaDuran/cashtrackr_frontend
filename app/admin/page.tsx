@@ -1,7 +1,7 @@
 //import { verifySession } from "@/src/auth/dal"
 import { getToken } from "@/src/auth/token";
 import { BudgetsAPIResponseSchema } from "@/src/shemas";
-import { formatCurrencyEu } from "@/src/utlis";
+import { formaDate, formatCurrencyEu } from "@/src/utlis";
 import { Metadata } from "next"
 import { cookies } from "next/headers";
 import Link from "next/link"
@@ -69,7 +69,8 @@ const AdminPage = async () => {
                                                             {formatCurrencyEu(+budget.amount)}
                                                       </p>
                                                       <p className='text-gray-500  text-sm'>
-
+                                                            Ultima Actualización: {''}
+                                                            <span className="font-bold">{formaDate(budget.updatedAt)}</span>
                                                       </p>
                                                 </div>
                                           </div>

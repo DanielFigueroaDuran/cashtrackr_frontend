@@ -11,3 +11,15 @@ export const formatCurrencyEu = (quantity: number) => {
             currency: 'EUR'
       }).format(quantity);
 };
+
+export const formaDate = (isoString: string) => {
+      const date = new Date(isoString);
+
+      const formater = new Intl.DateTimeFormat('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+      });
+
+      return formater.format(date);
+};
