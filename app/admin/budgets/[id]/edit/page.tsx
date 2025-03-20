@@ -10,12 +10,18 @@ const getBudget = async (budgetId: string) => {
             }
       });
       const json = await req.json();
-      console.log(req.ok);
+      //console.log(req.ok);
+
+      if (!req.ok) {
+
+      };
+
+      return json;
 };
 
 const EditBudgetPage = async ({ params }: { params: { id: string } }) => {
       const { id } = await params;
-      await getBudget(id);
+      const budget = await getBudget(id);
 
       return (
             <div>EditBudgetPage</div>
