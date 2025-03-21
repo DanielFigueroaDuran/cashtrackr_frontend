@@ -1,3 +1,4 @@
+import EditBudgetForm from "@/app/components/budgets/EditBudgetForm";
 import { BudgetAPIResponseSchema } from "@/src/shemas";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -46,7 +47,7 @@ const EditBudgetPage = async ({ params }: { params: { id: string } }) => {
                         </Link>
                   </div>
                   <div className='p-10 mt-10  shadow-lg border '>
-
+                        <EditBudgetForm />
                   </div>
             </>
       )
