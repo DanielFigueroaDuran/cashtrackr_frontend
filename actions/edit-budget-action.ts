@@ -1,18 +1,27 @@
-import { Budget } from '@/src/shemas';
-import { formaDate } from '@/src/utlis';
-import { error } from 'console';
 "use server"
+import { Budget, DraftBudgetSchema } from '@/src/shemas';
 
 type ActionStateType = {
-      error: string,
+      errors: string[],
       success: string
 }
 
-export const editBudget = async (budgetId: Budget['id'], prevState: ActionStateType, formaDate: FormData) => {
-      console.log(budgetId);
+export const editBudget = async (budgetId: Budget['id'], prevState: ActionStateType, formData: FormData) => {
+      const budgetData = {
+            name: formData.get('name'),
+            amount: formData.get('amount')
+      };
+      const budget = DraftBudgetSchema.safeParse(budgetData);
+
+      if (!budget.success) {
+            return {
+                  errors: budget.error.issues.map(issue => issue.message),
+                  success: ''
+            };
+      };
 
       return {
-            error: [],
+            errors: [],
             success: ''
       };
 };

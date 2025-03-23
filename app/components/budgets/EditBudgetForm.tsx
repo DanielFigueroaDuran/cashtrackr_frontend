@@ -1,11 +1,12 @@
 "use client"
-import { useActionState, Dispatch } from 'react';
+import { useActionState } from 'react';
+import { editBudget } from "@/actions/edit-budget-action";
+import ErrorMessage from '../ui/ErrorMessage';
 import { Budget } from "@/src/shemas"
 import BudgetForm from "./BudgetForm"
-import { editBudget } from "@/actions/edit-budget-action";
 
 const initialState = {
-      error: [],
+      errors: [],
       success: ''
 };
 
@@ -20,6 +21,7 @@ const EditBudgetForm = ({ budget }: { budget: Budget }) => {
                         noValidate
                         action={dispatch}
                   >
+                        {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
                         <BudgetForm
                               budget={budget}
                         />
