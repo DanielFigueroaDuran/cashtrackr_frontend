@@ -1,5 +1,6 @@
 "use server"
 import { Budget, DraftBudgetSchema, ErrorResponseSchema, SuccessShema } from '@/src/shemas';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 type ActionStateType = {
@@ -44,6 +45,9 @@ export const editBudget = async (budgetId: Budget['id'], prevState: ActionStateT
                   success: ''
             };
       };
+
+      // revalidatePath('/admin')
+      revalidateTag('/all-budgets');
 
       const success = SuccessShema.parse(json);
 
