@@ -1,11 +1,13 @@
+import { Metadata } from "next";
+import { cache } from "react";
 import EditBudgetForm from "@/app/components/budgets/EditBudgetForm";
 import { BudgetAPIResponseSchema } from "@/src/shemas";
-import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const getBudget = async (budgetId: string) => {
+
+const getBudget = cache(async (budgetId: string) => {
       const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
       const url = `${process.env.API_URL}/api/budgets/${budgetId}`;
 
@@ -23,10 +25,11 @@ const getBudget = async (budgetId: string) => {
 
       const budget = BudgetAPIResponseSchema.parse(json)
       return budget;
-};
+});
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
-      const budget = await getBudget(params.id);
+      const { id } = await params;
+      const budget = await getBudget(id);
 
       return {
             title: `CashTrackr - ${budget.name}`,
