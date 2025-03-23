@@ -1,5 +1,6 @@
 import EditBudgetForm from "@/app/components/budgets/EditBudgetForm";
 import { BudgetAPIResponseSchema } from "@/src/shemas";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -22,6 +23,15 @@ const getBudget = async (budgetId: string) => {
 
       const budget = BudgetAPIResponseSchema.parse(json)
       return budget;
+};
+
+export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
+      const budget = await getBudget(params.id);
+
+      return {
+            title: `CashTrackr - ${budget.name}`,
+            description: `CashTrackr - ${budget.name}`
+      };
 };
 
 const EditBudgetPage = async ({ params }: { params: { id: string } }) => {

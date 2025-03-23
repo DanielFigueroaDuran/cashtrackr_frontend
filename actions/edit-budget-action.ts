@@ -46,8 +46,8 @@ export const editBudget = async (budgetId: Budget['id'], prevState: ActionStateT
             };
       };
 
-      // revalidatePath('/admin')
-      revalidateTag('/all-budgets');
+      revalidatePath('/admin')
+      //revalidateTag('/all-budgets');
 
       const success = SuccessShema.parse(json);
 
