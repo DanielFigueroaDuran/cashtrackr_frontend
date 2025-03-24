@@ -2,6 +2,7 @@
 
 import { getToken } from "@/src/auth/token";
 import { DraftBudgetSchema, SuccessShema } from "@/src/shemas";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 type ActionStateType = {
@@ -42,6 +43,7 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
 
       //console.log(json);
 
+      revalidatePath('/admin');
       const success = SuccessShema.parse(json);
 
 

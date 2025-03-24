@@ -2,16 +2,20 @@
 
 import { Budget, ErrorResponseSchema, PasswordValidationShema } from "@/src/shemas";
 import { cookies } from "next/headers";
+import { SuccessShema } from '../src/shemas/index';
+import { revalidatePath } from "next/cache";
 
 type ActionStateType = {
       errors: string[],
+      success: string
 };
 
 export const deleteBudget = async (budgetId: Budget['id'], prevState: ActionStateType, formData: FormData) => {
       const currentPassword = PasswordValidationShema.safeParse(formData.get('password'));
       if (!currentPassword.success) {
             return {
-                  errors: currentPassword.error.issues.map(issue => issue.message)
+                  errors: currentPassword.error.issues.map(issue => issue.message),
+                  success: ''
             };
       };
 
@@ -34,7 +38,8 @@ export const deleteBudget = async (budgetId: Budget['id'], prevState: ActionStat
       if (!checkPasswordReq.ok) {
             const { error } = ErrorResponseSchema.parse(checkPasswordJson);
             return {
-                  errors: [error]
+                  errors: [error],
+                  success: ''
             };
       };
 
@@ -44,20 +49,25 @@ export const deleteBudget = async (budgetId: Budget['id'], prevState: ActionStat
             method: 'DELETE',
             headers: {
                   'Authorization': `Bearer ${token}`
-            }
+            },
       });
 
-      const deleteBudgetJson = deleteBudgetReq.json();
+      const deleteBudgetJson = await deleteBudgetReq.json();
 
       if (!deleteBudgetReq.ok) {
             const { error } = ErrorResponseSchema.parse(deleteBudgetJson);
             return {
-                  errors: [error]
+                  errors: [error],
+                  success: ''
+
             };
       };
 
+      revalidatePath('/admin');
+      const success = SuccessShema.parse(deleteBudgetJson);
 
       return {
             errors: [],
+            success
       };
 };
