@@ -38,6 +38,25 @@ export const deleteBudget = async (budgetId: Budget['id'], prevState: ActionStat
             };
       };
 
+      //Delete budget
+      const deleteBudgetUrl = `${process.env.API_URL}/api/budgets/${budgetId}`;
+      const deleteBudgetReq = await fetch(deleteBudgetUrl, {
+            method: 'DELETE',
+            headers: {
+                  'Authorization': `Bearer ${token}`
+            }
+      });
+
+      const deleteBudgetJson = deleteBudgetReq.json();
+
+      if (!deleteBudgetReq.ok) {
+            const { error } = ErrorResponseSchema.parse(deleteBudgetJson);
+            return {
+                  errors: [error]
+            };
+      };
+
+
       return {
             errors: [],
       };
