@@ -1,3 +1,4 @@
+import AddExpenseButton from "@/app/components/expenses/AddExpenseButton";
 import { getBudget } from "@/src/services/budget";
 import { Metadata } from "next";
 
@@ -22,7 +23,7 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
                               <h1 className="font-black text-4xl text-purple-950">{budget.name}</h1>
                               <p className="text-xl font-bold">Administra tus {''} <span className="text-amber-500">gastos</span></p>
                         </div>
-
+                        <AddExpenseButton />
                   </div>
             </>
       )
