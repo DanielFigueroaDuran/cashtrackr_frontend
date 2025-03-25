@@ -1,4 +1,5 @@
 import AddExpenseButton from "@/app/components/expenses/AddExpenseButton";
+import ModalContainer from "@/app/components/ui/ModalContainer";
 import { getBudget } from "@/src/services/budget";
 import { Metadata } from "next";
 
@@ -25,6 +26,7 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
                         </div>
                         <AddExpenseButton />
                   </div>
+                  <ModalContainer />
             </>
       )
 }
