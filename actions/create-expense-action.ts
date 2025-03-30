@@ -1,6 +1,7 @@
 "use server"
 
-import { DraftExpenseShema } from "@/src/shemas";
+import { DraftExpenseShema, ErrorResponseSchema, SuccessShema } from "@/src/shemas";
+import { cookies } from "next/headers";
 
 type ActionEstateType = {
       errors: string[],
@@ -22,8 +23,37 @@ export const createExpense = async (budgetId: number, prevState: ActionEstateTyp
             };
       };
 
+      //generate expense
+      const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
+
+      const url = `${process.env.API_URL}/api/budgets/${budgetId}/expenses`;
+
+      const req = await fetch(url, {
+            method: 'POST',
+            headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                  name: expense.data.name,
+                  amount: expense.data.amount
+            })
+      });
+
+      const json = await req.json();
+
+      if (!req.ok) {
+            const { error } = ErrorResponseSchema.parse(json);
+            return {
+                  errors: [error],
+                  success: ''
+            }
+      };
+
+      const success = SuccessShema.parse(json);
+
       return {
             errors: [],
-            success: ''
-      }
+            success
+      };
 };

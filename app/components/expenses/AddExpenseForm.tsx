@@ -1,7 +1,8 @@
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { DialogTitle } from "@headlessui/react";
+import { toast } from "react-toastify";
 import ExpenseForm from "./ExpenseForm";
 import { createExpense } from "@/actions/create-expense-action";
 import ErrorMessage from "../ui/ErrorMessage";
@@ -11,11 +12,18 @@ const initialState = {
       success: ''
 };
 
-const AddExpenseForm = () => {
+const AddExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
       const params = useParams();
       const id = params?.id;
       const createExpenseWithBudgetId = createExpense.bind(null, Number(id));
       const [state, dispatch] = useActionState(createExpenseWithBudgetId, initialState);
+
+      useEffect(() => {
+            if (state.success) {
+                  toast.success(state.success);
+                  closeModal();
+            };
+      }, [state])
 
       return (
             <>
