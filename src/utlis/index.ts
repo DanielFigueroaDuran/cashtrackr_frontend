@@ -12,7 +12,7 @@ export const formatCurrencyEu = (quantity: number) => {
       }).format(quantity);
 };
 
-export const formaDate = (isoString: string) => {
+export const formatDate = (isoString: string) => {
       const date = new Date(isoString);
 
       const formater = new Intl.DateTimeFormat('es-ES', {

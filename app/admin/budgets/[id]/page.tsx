@@ -1,6 +1,7 @@
 import AddExpenseButton from "@/app/components/expenses/AddExpenseButton";
 import ModalContainer from "@/app/components/ui/ModalContainer";
 import { getBudget } from "@/src/services/budget";
+import { formatCurrencyEu, formatDate } from "@/src/utlis";
 import { Metadata } from "next";
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
@@ -17,7 +18,7 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
       const { id } = await params;
       const budget = await getBudget(id);
 
-      console.log(budget);
+      //console.log(budget);
 
       return (
             <>
@@ -28,6 +29,38 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
                         </div>
                         <AddExpenseButton />
                   </div>
+
+                  {budget.expenses.length ? (
+                        <>
+                              <h1 className="font-black text-4xl text-purple-950 mt-20">
+                                    Gastos en este Presupuesto
+                              </h1>
+
+                              <ul role="list" className="divide-y divide-gray-300 border shadow-lg mt-10 ">
+                                    {budget.expenses.map((expense) => (
+                                          <li key={expense.id} className="flex justify-between gap-x-6 p-5">
+                                                <div className="flex min-w-0 gap-x-4">
+                                                      <div className="min-w-0 flex-auto space-y-2">
+                                                            <p className="text-2xl font-semibold text-gray-900">
+                                                                  {expense.name}
+                                                            </p>
+                                                            <p className="text-xl font-bold text-amber-500">
+                                                                  {formatCurrencyEu(+expense.amount)}
+                                                            </p>
+                                                            <p className='text-gray-500  text-sm'>
+                                                                  Agregado: {''}
+                                                                  {formatDate(expense.updatedAt)}
+                                                            </p>
+                                                      </div>
+                                                </div>
+                                          </li>
+                                    ))}
+                              </ul>
+                        </>
+                  ) : (
+                        <p className="text-center py-20">No hay gastos</p>
+                  )}
+
                   <ModalContainer />
             </>
       )
