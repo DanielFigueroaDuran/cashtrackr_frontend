@@ -1,9 +1,10 @@
 
+import { useActionState } from "react";
+import { useParams } from "next/navigation";
 import { DialogTitle } from "@headlessui/react";
 import ExpenseForm from "./ExpenseForm";
-import { useActionState } from "react";
 import { createExpense } from "@/actions/create-expense-action";
-import { useParams } from "next/navigation";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const initialState = {
       errors: [],
@@ -11,8 +12,9 @@ const initialState = {
 };
 
 const AddExpenseForm = () => {
-      const { id } = useParams();
-      const createExpenseWithBudgetId = createExpense.bind(null, +id);
+      const params = useParams();
+      const id = params?.id;
+      const createExpenseWithBudgetId = createExpense.bind(null, Number(id));
       const [state, dispatch] = useActionState(createExpenseWithBudgetId, initialState);
 
       return (
@@ -27,6 +29,9 @@ const AddExpenseForm = () => {
                   <p className="text-xl font-bold">Llena el formulario y crea un {''}
                         <span className="text-amber-500">gasto</span>
                   </p>
+
+                  {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
+
                   <form
                         className="bg-gray-100 shadow-lg rounded-lg p-10 mt-10 border"
                         noValidate
