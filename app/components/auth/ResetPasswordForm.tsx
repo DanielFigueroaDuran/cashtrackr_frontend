@@ -1,7 +1,7 @@
 import { useActionState, useEffect } from "react"
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { resetPassword } from "@/actions/reset-password-action";
-import { useRouter } from "next/navigation";
 
 const initialState = {
       errors: [],

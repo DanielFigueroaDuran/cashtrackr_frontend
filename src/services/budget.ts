@@ -13,12 +13,11 @@ export const getBudget = cache(async (budgetId: string) => {
             }
       });
       const json = await req.json();
-      //console.log(req.ok);
 
       if (!req.ok) {
             notFound();
       };
 
-      const budget = BudgetAPIResponseSchema.parse(json)
+      const budget = BudgetAPIResponseSchema.parse(json);
       return budget;
 });

@@ -4,7 +4,6 @@ import { useActionState, useEffect, useRef } from "react";
 import { register } from "@/actions/create-account-action";
 import ErrorMessage from "../ui/ErrorMessage";
 import SuccessMessage from "../ui/SuccessMessage";
-import { redirect } from "next/navigation";
 
 const initialState = {
       errors: [],

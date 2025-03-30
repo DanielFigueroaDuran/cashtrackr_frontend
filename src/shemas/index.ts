@@ -66,13 +66,23 @@ export const UserSchema = z.object({
       email: z.string().email()
 });
 
+export const ExpenseAPIResponseShema = z.object({
+      id: z.number(),
+      name: z.string(),
+      amount: z.string(),
+      createdAt: z.string(),
+      updatedAt: z.string(),
+      budgetId: z.number()
+});
+
 export const BudgetAPIResponseSchema = z.object({
       id: z.number(),
       name: z.string(),
       amount: z.string(),
       userId: z.number(),
       createdAt: z.string(),
-      updatedAt: z.string()
+      updatedAt: z.string(),
+      expenses: z.array(ExpenseAPIResponseShema)
 });
 
 export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema);

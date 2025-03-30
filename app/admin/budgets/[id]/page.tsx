@@ -17,6 +17,8 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
       const { id } = await params;
       const budget = await getBudget(id);
 
+      console.log(budget);
+
       return (
             <>
                   <div className='flex justify-between items-center'>
