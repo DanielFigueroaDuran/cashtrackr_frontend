@@ -1,6 +1,7 @@
 "use server"
 
 import { DraftExpenseShema, ErrorResponseSchema, SuccessShema } from "@/src/shemas";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 type ActionEstateType = {
@@ -51,6 +52,7 @@ export const createExpense = async (budgetId: number, prevState: ActionEstateTyp
       };
 
       const success = SuccessShema.parse(json);
+      revalidatePath(`/admin/budgets/${budgetId}`);
 
       return {
             errors: [],
