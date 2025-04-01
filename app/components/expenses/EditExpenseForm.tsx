@@ -1,7 +1,24 @@
 import { DialogTitle } from "@headlessui/react";
+import { useEffect } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import ExpenseForm from "./ExpenseForm";
 
 const EditExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
+      const { id: budgetId } = useParams();
+      console.log(budgetId);
+
+      const searchParams = useSearchParams();
+      const expenseId = searchParams.get('editExpenseId');
+
+      console.log(expenseId);
+
+      useEffect(() => {
+            const url = `${process.env.NEXT_PUBLIC_URL}/admin/api/budgets/${budgetId}/expenses/${expenseId}`
+            //console.log(url);/api/budgets/1/expenses/1
+            fetch(url)
+                  .then(res => res.json())
+                  .then(data => console.log(data))
+      }, []);
 
       return (
             <>
