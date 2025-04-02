@@ -1,4 +1,10 @@
-const ExpenseForm = () => {
+import { DraftExpense } from "@/src/shemas";
+
+type ExpenseFormProps = {
+      expense?: DraftExpense
+};
+
+const ExpenseForm = ({ expense }: ExpenseFormProps) => {
       return (
             <>
                   <div className="mb-5">
@@ -11,6 +17,7 @@ const ExpenseForm = () => {
                               type="text"
                               placeholder="Nombre del Gasto"
                               name="name"
+                              defaultValue={expense?.name}
                         />
                   </div>
 
@@ -24,6 +31,7 @@ const ExpenseForm = () => {
                               type="number"
                               placeholder="Cantidad Gasto"
                               name="amount"
+                              defaultValue={expense?.amount}
                         />
                   </div>
             </>
