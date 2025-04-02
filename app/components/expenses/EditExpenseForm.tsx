@@ -1,8 +1,14 @@
 import { DialogTitle } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import ExpenseForm from "./ExpenseForm";
 import { DraftExpense } from "@/src/shemas";
+import { editExpense } from "@/actions/edit-expense-action";
+
+const initialState = {
+      errors: [],
+      success: ''
+};
 
 const EditExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
       const [expense, setExpense] = useState<DraftExpense>();
@@ -10,7 +16,13 @@ const EditExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
       //console.log(budgetId);
 
       const searchParams = useSearchParams();
-      const expenseId = searchParams.get('editExpenseId');
+      const expenseId = searchParams.get('editExpenseId')!;
+
+      const editExpenseWithBudgetId = editExpense.bind(null, {
+            budgetId: Number(budgetId),
+            expenseId: +expenseId
+      });
+      const [state, dispatch] = useActionState(editExpenseWithBudgetId, initialState);
 
       //console.log(expenseId);
       // console.log(expenses);
@@ -36,6 +48,7 @@ const EditExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
                   <form
                         className="bg-gray-100 shadow-lg rounded-lg p-10 mt-10 border"
                         noValidate
+                        action={dispatch}
                   >
                         <ExpenseForm
                               expense={expense}
