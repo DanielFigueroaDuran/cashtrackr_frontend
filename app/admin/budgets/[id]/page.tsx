@@ -63,7 +63,7 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
                               </ul>
                         </>
                   ) : (
-                        <p className="text-center py-20">No hay gastos</p>
+                        <p className="text-center py-20">No hay gastos aún</p>
                   )}
 
                   <ModalContainer />
