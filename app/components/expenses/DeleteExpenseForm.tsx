@@ -1,15 +1,34 @@
 
 import { useParams, useSearchParams } from "next/navigation";
 import { DialogTitle } from "@headlessui/react";
+import { startTransition, useActionState, useEffect } from "react";
+import { DeleteExpense } from "@/actions/delete-expense-action";
 
 type DeleteExpenseForm = {
       closeModal: () => void
 }
 
+const initialState = {
+      errors: [],
+      success: ''
+};
+
 const DeleteExpenseForm = ({ closeModal }: DeleteExpenseForm) => {
       const { id: budgetId } = useParams()
       const searchParams = useSearchParams()
       const expenseId = searchParams.get('deleteExpenseId')!
+
+      const deleteexpenseWhitBudgetId = DeleteExpense.bind(null, {
+            budgetId: Number(budgetId),
+            expenseId: +expenseId
+      });
+      const [state, dispatch] = useActionState(deleteexpenseWhitBudgetId, initialState);
+
+      useEffect(() => {
+            if (!Number.isInteger(Number(budgetId)) || !Number.isInteger(+expenseId)) {
+                  closeModal();
+            };
+      }, []);
 
       return (
             <>
@@ -31,7 +50,14 @@ const DeleteExpenseForm = ({ closeModal }: DeleteExpenseForm) => {
                         <button
                               type='button'
                               className="bg-red-500 w-full p-3 text-white uppercase font-bold hover:bg-red-600 cursor-pointer transition-colors"
-                        >Eliminar</button>
+                              onClick={() => {
+                                    startTransition(() => {
+                                          dispatch();
+                                    });
+                              }}
+                        >
+                              Eliminar
+                        </button>
                   </div>
             </>
       )
