@@ -4,6 +4,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import ExpenseForm from "./ExpenseForm";
 import { DraftExpense } from "@/src/shemas";
 import { editExpense } from "@/actions/edit-expense-action";
+import ErrorMessage from "../ui/ErrorMessage";
+import { toast } from 'react-toastify';
 
 const initialState = {
       errors: [],
@@ -34,6 +36,13 @@ const EditExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
                   .then(data => setExpense(data))
       }, []);
 
+      useEffect(() => {
+            if (state.success) {
+                  toast.success(state.success);
+                  closeModal();
+            };
+      }, [state]);
+
       return (
             <>
                   <DialogTitle
@@ -45,6 +54,9 @@ const EditExpenseForm = ({ closeModal }: { closeModal: () => void }) => {
                   <p className="text-xl font-bold">Edita los detalles de un {''}
                         <span className="text-amber-500">gasto</span>
                   </p>
+
+                  {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
+
                   <form
                         className="bg-gray-100 shadow-lg rounded-lg p-10 mt-10 border"
                         noValidate
