@@ -3,6 +3,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import { DialogTitle } from "@headlessui/react";
 import { startTransition, useActionState, useEffect } from "react";
 import { DeleteExpense } from "@/actions/delete-expense-action";
+import ErrorMessage from "../ui/ErrorMessage";
+import { toast } from "react-toastify";
 
 type DeleteExpenseForm = {
       closeModal: () => void
@@ -25,6 +27,13 @@ const DeleteExpenseForm = ({ closeModal }: DeleteExpenseForm) => {
       const [state, dispatch] = useActionState(deleteexpenseWhitBudgetId, initialState);
 
       useEffect(() => {
+            if (state.success) {
+                  toast.success(state.success);
+                  closeModal();
+            };
+      }, [state]);
+
+      useEffect(() => {
             if (!Number.isInteger(Number(budgetId)) || !Number.isInteger(+expenseId)) {
                   closeModal();
             };
@@ -38,6 +47,9 @@ const DeleteExpenseForm = ({ closeModal }: DeleteExpenseForm) => {
                   >
                         Eliminar Gasto
                   </DialogTitle>
+
+                  {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
+
                   <p className="text-xl font-bold">Confirma para eliminar, {''}
                         <span className="text-amber-500">el gasto</span>
                   </p>
