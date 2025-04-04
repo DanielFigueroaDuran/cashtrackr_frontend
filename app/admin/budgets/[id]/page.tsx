@@ -22,6 +22,9 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
 
       //console.log(budget);
 
+      const totalSpant = budget.expenses.reduce((total, expense) => +expense.amount + total, 0);
+      const totalAvailable = +budget.amount - totalSpant;
+
       return (
             <>
                   <div className='flex justify-between items-center'>
@@ -40,15 +43,15 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
                                     <div className="flex flex-col justify-center items-center md:items-start gap-5">
                                           <Amount
                                                 label='Presupuesto'
-                                                amount={300}
+                                                amount={+budget.amount}
                                           />
                                           <Amount
                                                 label='Disponible'
-                                                amount={200}
+                                                amount={totalAvailable}
                                           />
                                           <Amount
                                                 label='Gastado'
-                                                amount={100}
+                                                amount={totalSpant}
                                           />
                                     </div>
                               </div>
