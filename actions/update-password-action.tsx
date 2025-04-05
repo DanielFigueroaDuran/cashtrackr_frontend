@@ -1,6 +1,7 @@
 "use server"
 
-import { UpdatePassworsShema } from "@/src/shemas";
+import { ErrorResponseSchema, SuccessShema, UpdatePassworsShema } from "@/src/shemas";
+import { cookies } from "next/headers";
 import { requestFormReset } from "react-dom";
 
 type ActionStateType = {
@@ -22,8 +23,34 @@ export const updatePassword = async (prevstate: ActionStateType, formData: FormD
             };
       };
 
+      const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
+      const url = `${process.env.API_URL}/api/auth/update-password`;
+      const req = await fetch(url, {
+            method: 'POST',
+            headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                  current_password: userPassword.data.current_password,
+                  password: userPassword.data.password
+            })
+      });
+
+      const json = await req.json();
+
+      if (!req.ok) {
+            const { error } = ErrorResponseSchema.parse(json);
+            return {
+                  errors: [error],
+                  success: ''
+            };
+      };
+
+      const success = SuccessShema.parse(json);
+
       return {
             errors: [],
-            success: ''
+            success
       };
 };
