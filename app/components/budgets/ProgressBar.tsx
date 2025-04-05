@@ -2,18 +2,18 @@
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const ProgressBar = () => {
+const ProgressBar = ({ percentage }: { percentage: number }) => {
       return (
             <div className='flex justify-center p-10'>
                   <CircularProgressbar
                         styles={buildStyles({
-                              pathColor: '#F59E0B',
+                              pathColor: percentage >= 100 ? '#DC2626' : '#F59E0B',
                               trailColor: '#E1E1E1',
-                              textColor: '#F59E0B',
+                              textColor: percentage >= 100 ? '#DC2626' : '#F59E0B',
                               textSize: 8
                         })}
-                        text={`50% Gastado`}
-                        value={50}
+                        text={`${percentage}% Gastado`}
+                        value={percentage}
                   />
             </div>
       )

@@ -25,6 +25,7 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
 
       const totalSpant = budget.expenses.reduce((total, expense) => +expense.amount + total, 0);
       const totalAvailable = +budget.amount - totalSpant;
+      const percentage = +((totalSpant / +budget.amount) * 100).toFixed(2);
 
       return (
             <>
@@ -39,7 +40,9 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
                   {budget.expenses.length ? (
                         <>
                               <div className="grid grid-cols-1 md:grid-cols-2 mt-10">
-                                    <ProgressBar />
+                                    <ProgressBar
+                                          percentage={percentage}
+                                    />
                                     <div className="flex flex-col justify-center items-center md:items-start gap-5">
                                           <Amount
                                                 label='Presupuesto'
