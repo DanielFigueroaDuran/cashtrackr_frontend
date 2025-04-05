@@ -1,3 +1,4 @@
+import ProgressBar from "@/app/components/budgets/ProgressBar";
 import AddExpenseButton from "@/app/components/expenses/AddExpenseButton";
 import ExpenseMenu from "@/app/components/expenses/ExpenseMenu";
 import Amount from "@/app/components/ui/Amount";
@@ -37,9 +38,8 @@ const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
 
                   {budget.expenses.length ? (
                         <>
-
                               <div className="grid grid-cols-1 md:grid-cols-2 mt-10">
-                                    <div className="">Gráfica</div>
+                                    <ProgressBar />
                                     <div className="flex flex-col justify-center items-center md:items-start gap-5">
                                           <Amount
                                                 label='Presupuesto'
