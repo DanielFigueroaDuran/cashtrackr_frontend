@@ -1,3 +1,4 @@
+import ChangePasswordForm from "@/app/components/profile/ChangePasswordForm";
 
 
 const ChangePasswordPage = async () => {
@@ -7,6 +8,7 @@ const ChangePasswordPage = async () => {
                   <p className="text-xl font-bold">Aquí puedes cambiar tu {''}
                         <span className="text-amber-500">password</span>
                   </p>
+                  <ChangePasswordForm />
             </>
       )
 }
