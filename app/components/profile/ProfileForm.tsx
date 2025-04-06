@@ -1,15 +1,34 @@
 "use client"
 
+import { updateUser } from "@/actions/update-user-action";
 import { User } from "@/src/shemas";
+import { useActionState, useEffect } from "react";
+import ErrorMessage from "../ui/ErrorMessage";
+import { toast } from "react-toastify";
+
+const initialState = {
+      errors: [],
+      success: ''
+};
 
 const ProfileForm = ({ user }: { user: User }) => {
+
+      const [state, dispatch] = useActionState(updateUser, initialState);
+
+      useEffect(() => {
+            if (state.success) {
+                  toast.success(state.success);
+            };
+      }, [state]);
 
       return (
             <>
                   <form
                         className=" mt-14 space-y-5"
                         noValidate
+                        action={dispatch}
                   >
+                        {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
                         <div className="flex flex-col gap-5">
                               <label
                                     className="font-bold text-2xl"
