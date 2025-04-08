@@ -1,7 +1,7 @@
 
 import { useParams, useSearchParams } from "next/navigation";
 import { DialogTitle } from "@headlessui/react";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState, useCallback, useEffect } from "react";
 import { DeleteExpense } from "@/actions/delete-expense-action";
 import ErrorMessage from "../ui/ErrorMessage";
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ const DeleteExpenseForm = ({ closeModal }: DeleteExpenseForm) => {
       const { id: budgetId } = useParams()
       const searchParams = useSearchParams()
       const expenseId = searchParams.get('deleteExpenseId')!
+      const newCloseModal = useCallback(closeModal, [closeModal]);
 
       const deleteexpenseWhitBudgetId = DeleteExpense.bind(null, {
             budgetId: Number(budgetId),
@@ -29,15 +30,15 @@ const DeleteExpenseForm = ({ closeModal }: DeleteExpenseForm) => {
       useEffect(() => {
             if (state.success) {
                   toast.success(state.success);
-                  closeModal();
+                  newCloseModal();
             };
-      }, [state]);
+      }, [state, newCloseModal]);
 
       useEffect(() => {
             if (!Number.isInteger(Number(budgetId)) || !Number.isInteger(+expenseId)) {
-                  closeModal();
+                  newCloseModal();
             };
-      }, []);
+      }, [budgetId, expenseId, newCloseModal]);
 
       return (
             <>

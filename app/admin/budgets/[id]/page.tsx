@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import ProgressBar from "@/app/components/budgets/ProgressBar";
 import AddExpenseButton from "@/app/components/expenses/AddExpenseButton";
 import ExpenseMenu from "@/app/components/expenses/ExpenseMenu";
@@ -5,11 +6,15 @@ import Amount from "@/app/components/ui/Amount";
 import ModalContainer from "@/app/components/ui/ModalContainer";
 import { getBudget } from "@/src/services/budget";
 import { formatCurrencyEu, formatDate } from "@/src/utlis";
-import { Metadata } from "next";
 
-export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
-      const { id } = await params;
-      const budget = await getBudget(id);
+// type BudgetPageProps = {
+//       params: {
+//             id: string;
+//       };
+// };
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+      const budget = await getBudget(params.id);
 
       return {
             title: `CashTrackr - ${budget.name}`,
@@ -18,8 +23,8 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
 };
 
 const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
-      const { id } = await params;
-      const budget = await getBudget(id);
+      //const { id } = params;
+      const budget = await getBudget(params.id);
 
       //console.log(budget);
 

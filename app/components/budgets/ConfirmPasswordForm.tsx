@@ -1,6 +1,6 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { DialogTitle } from "@headlessui/react"
-import { useActionState, useEffect } from "react";
+import { useActionState, useCallback, useEffect } from "react";
 import { deleteBudget } from "@/actions/delete-budget-action";
 import ErrorMessage from "../ui/ErrorMessage";
 import { toast } from "react-toastify";
@@ -16,21 +16,25 @@ const ConfirmPasswordForm = () => {
       const searchParams = useSearchParams();
       const budgetId = +searchParams.get('deleteBudgetId')!;
 
-      const deleteBudgetWithPassword = deleteBudget.bind(null, budgetId);
-      const [state, dispatch] = useActionState(deleteBudgetWithPassword, initialState);
-
-      useEffect(() => {
-            if (state.success) {
-                  toast.success(state.success);
-                  closeModal();
-            };
-      }, [state]);
-
       const closeModal = () => {
             const hideModal = new URLSearchParams(searchParams.toString())
             hideModal.delete('deleteBudgetId')
             router.replace(`${pathname}?${hideModal}`)
       };
+
+      const newCloseModal = useCallback(closeModal, [closeModal]);
+
+      const deleteBudgetWithPassword = deleteBudget.bind(null, budgetId);
+      const [state, dispatch] = useActionState(deleteBudgetWithPassword, initialState);
+
+
+      useEffect(() => {
+            if (state.success) {
+                  toast.success(state.success);
+                  newCloseModal();
+            };
+      }, [state, newCloseModal]);
+
 
 
       return (

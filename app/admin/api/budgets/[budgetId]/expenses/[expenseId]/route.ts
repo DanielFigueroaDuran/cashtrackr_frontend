@@ -1,12 +1,19 @@
+import { NextRequest } from "next/server";
 import { verifySession } from "@/src/auth/dal";
 import { cookies } from "next/headers";
 
-export async function GET(request: Request, { params }: { params: { budgetId: string, expenseId: string } }) {
+
+export async function GET(
+      request: NextRequest,
+      { params }: { params: Promise<{ budgetId: string, expenseId: string }> }) {
+
       await verifySession();
 
+      const { budgetId, expenseId } = await params;
+
       const token = (await cookies()).get('CASHTRACKR_TOKEN')?.value;
-      const url = `${process.env.API_URL}/api/budgets/${params.budgetId}/expenses/${params.expenseId}`;
-      console.log(url);
+      const url = `${process.env.API_URL}/api/budgets/${budgetId}/expenses/${expenseId}`;
+      //console.log(url);
       const req = await fetch(url, {
             headers: {
                   'Authorization': `Bearer ${token}`

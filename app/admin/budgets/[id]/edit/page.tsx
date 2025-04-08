@@ -3,9 +3,15 @@ import EditBudgetForm from "@/app/components/budgets/EditBudgetForm";
 import Link from "next/link";
 import { getBudget } from "@/src/services/budget";
 
-export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
-      const { id } = await params;
-      const budget = await getBudget(id);
+// type BudgetPageProps = {
+//       params: {
+//             id: string;
+//       };
+// };
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+      // const { id } = params;
+      const budget = await getBudget(params.id);
 
       return {
             title: `CashTrackr - ${budget.name}`,
@@ -14,8 +20,8 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
 };
 
 const EditBudgetPage = async ({ params }: { params: { id: string } }) => {
-      const { id } = await params;
-      const budget = await getBudget(id);
+      //const { id } = params;
+      const budget = await getBudget(params.id);
 
       return (
             <>

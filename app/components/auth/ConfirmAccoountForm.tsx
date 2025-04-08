@@ -39,7 +39,7 @@ const ConfirmAccoountForm = () => {
                         }
                   });
             };
-      }, [state]);
+      }, [state, router]);
 
 
       const handleChange = (token: string) => {
