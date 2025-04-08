@@ -37,7 +37,7 @@ export const DeleteExpense = async (
       };
 
       const success = SuccessShema.parse(json);
-      revalidatePath(`/admin/budgets/${budgetId}`);
+      //revalidatePath(`/admin/budgets/${budgetId}`);
 
       return {
             errors: [],

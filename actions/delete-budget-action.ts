@@ -63,7 +63,7 @@ export const deleteBudget = async (budgetId: Budget['id'], prevState: ActionStat
             };
       };
 
-      revalidatePath('/admin');
+      //revalidatePath('/admin');
       const success = SuccessShema.parse(deleteBudgetJson);
 
       return {

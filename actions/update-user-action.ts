@@ -47,7 +47,7 @@ export const updateUser = async (prevState: ActionStateType, formData: FormData)
             };
       };
 
-      revalidatePath('/admin/profile/settings');
+      //revalidatePath('/admin/profile/settings');
       const success = SuccessShema.parse(json);
 
       return {

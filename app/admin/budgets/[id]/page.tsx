@@ -7,14 +7,15 @@ import ModalContainer from "@/app/components/ui/ModalContainer";
 import { getBudget } from "@/src/services/budget";
 import { formatCurrencyEu, formatDate } from "@/src/utlis";
 
-// type BudgetPageProps = {
-//       params: {
-//             id: string;
-//       };
-// };
+type BudgetPageProps = {
+      params: {
+            id: string;
+      };
+};
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-      const budget = await getBudget(params.id);
+export async function generateMetadata({ params }: BudgetPageProps): Promise<Metadata> {
+      const { id } = await params;
+      const budget = await getBudget(id);
 
       return {
             title: `CashTrackr - ${budget.name}`,
@@ -22,9 +23,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       };
 };
 
-const BudgetDetailPage = async ({ params }: { params: { id: string } }) => {
-      //const { id } = params;
-      const budget = await getBudget(params.id);
+const BudgetDetailPage = async ({ params }: BudgetPageProps) => {
+      const { id } = await params;
+      const budget = await getBudget(id);
 
       //console.log(budget);
 

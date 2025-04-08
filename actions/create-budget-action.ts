@@ -43,7 +43,7 @@ export const createBudget = async (prevState: ActionStateType, formData: FormDat
 
       //console.log(json);
 
-      revalidatePath('/admin');
+      //revalidatePath('/admin');
       const success = SuccessShema.parse(json);
 
 

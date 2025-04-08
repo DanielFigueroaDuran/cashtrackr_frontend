@@ -52,7 +52,7 @@ export const createExpense = async (budgetId: number, prevState: ActionEstateTyp
       };
 
       const success = SuccessShema.parse(json);
-      revalidatePath(`/admin/budgets/${budgetId}`);
+      //revalidatePath(`/admin/budgets/${budgetId}`);
 
       return {
             errors: [],
